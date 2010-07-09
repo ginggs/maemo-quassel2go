@@ -34,6 +34,7 @@
 #include "client.h"
 #include "iconloader.h"
 #include "multilineedit.h"
+#include "qmlchatview.h"
 #include "qtui.h"
 #include "settings.h"
 
@@ -112,8 +113,11 @@ void BufferWidget::setAutoMarkerLine(const QVariant &v) {
 }
 
 AbstractChatView *BufferWidget::createChatView(BufferId id) {
-  ChatView *chatView;
-  chatView = new ChatView(id, this);
+  QmlChatView *chatView;
+  chatView = new QmlChatView(id, this);
+
+  //ChatView *chatView;
+  //chatView = new ChatView(id, this);
   chatView->setBufferContainer(this);
   _chatViews[id] = chatView;
   ui.stackedWidget->addWidget(chatView);
@@ -133,10 +137,11 @@ void BufferWidget::showChatView(BufferId id) {
   if(!id.isValid()) {
     ui.stackedWidget->setCurrentWidget(ui.page);
   } else {
-    ChatView *view = qobject_cast<ChatView *>(_chatViews.value(id));
+    //ChatView *view = qobject_cast<ChatView *>(_chatViews.value(id));
+    QmlChatView *view = qobject_cast<QmlChatView *>(_chatViews.value(id));
     Q_ASSERT(view);
     ui.stackedWidget->setCurrentWidget(view);
-    _chatViewSearchController->setScene(view->scene());
+    //_chatViewSearchController->setScene(view->scene());
   }
 }
 

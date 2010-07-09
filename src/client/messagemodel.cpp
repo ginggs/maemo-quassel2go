@@ -36,6 +36,10 @@ public:
 MessageModel::MessageModel(QObject *parent)
   : QAbstractListModel(parent)
 {
+  QHash<int, QByteArray> roles;
+  roles[MessageModel::DisplayRole] = "plaintext";
+  setRoleNames(roles);
+
   QDateTime now = QDateTime::currentDateTime();
   now.setTimeSpec(Qt::UTC);
   _nextDayChange.setTimeSpec(Qt::UTC);
@@ -54,7 +58,7 @@ QVariant MessageModel::data(const QModelIndex &index, int role) const {
   if(role == ColumnTypeRole)
     return column;
 
-  return messageItemAt(row)->data(index.column(), role);
+  return messageItemAt(row)->data(index.column()+2, role);
   // return _messageList[row]->data(index.column(), role);
 }
 
